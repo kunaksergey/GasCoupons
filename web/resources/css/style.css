@@ -1,0 +1,32 @@
+#basketbody{
+    display: none;
+    background: aliceblue;
+}
+
+.popup{
+    display: none;
+}
+
+#page-login{
+    display: none;
+    width: 250px;
+    height: 250px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -125px 0 0 -125px;
+}
+.wrap-white-block{
+    display: none;
+}
+
+.edit-content{
+    display: none;
+}
+.prod-order{
+    margin: 20px;
+}
+
+.price-line>span{
+    margin: 20px;
+}
