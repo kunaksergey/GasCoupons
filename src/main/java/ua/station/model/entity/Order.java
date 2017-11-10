@@ -19,6 +19,7 @@ public class Order implements Serializable {
 
     @JsonIgnore
     @Column(name="user")
+    @Transient
     User user;
     @Column(name="status")
     Integer status;
