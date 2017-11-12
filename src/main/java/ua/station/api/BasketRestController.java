@@ -42,8 +42,10 @@ class BasketRestController {
         Basket basket = basketService.findByEmail(principal.getName());
 
         Price price = priceService.findById(idPrice);
-        BasketItem basketItem = new BasketItem(price, count);
+        BasketItem basketItem = new BasketItem();
         basketItem.setBasket(basket);
+        basketItem.setPrice(price);
+        basketItem.setCount(count);
         basketItemService.save(basketItem);
         basket.getBasketItems().add(basketItem);
         basket.setSumm(basket.getSumm() + count);

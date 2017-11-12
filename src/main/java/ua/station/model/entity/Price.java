@@ -1,6 +1,7 @@
 package ua.station.model.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "price")
-public class Price {
+public class Price implements Serializable{
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,9 +24,8 @@ public class Price {
     @JoinColumn(name = "station_id", referencedColumnName = "id")
     private Station station;
 
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true,
-//            targetEntity = BasketItem.class, mappedBy = "price")
-//    private List<BasketItem> basketItems;
+    public Price() {
+    }
 
     private BigDecimal price;
 
@@ -62,7 +62,8 @@ public class Price {
         this.price = price;
     }
 
-//    public List<BasketItem> getBasketItems() {
+
+    //    public List<BasketItem> getBasketItems() {
 //        return basketItems;
 //    }
 //

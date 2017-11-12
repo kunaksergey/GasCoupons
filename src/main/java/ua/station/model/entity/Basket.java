@@ -3,6 +3,7 @@ package ua.station.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "basket")
-public class Basket {
+public class Basket implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

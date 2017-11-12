@@ -9,40 +9,43 @@ import java.io.Serializable;
  * Created by sa on 05.11.17.
  */
 @Entity
-@Table(name="basket_item")
-public class BasketItem implements Serializable{
+@Table(name = "basket_item")
+public class BasketItem implements Serializable {
 
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @JoinColumn(name = "basket_id", referencedColumnName = "id")
-    //@ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @ManyToOne
+    @EmbeddedId
+    @JsonIgnore
+    private BasketItemPK basketItemPk = new BasketItemPK();
+
+
+    @MapsId("basketId")
+    @JoinColumn(name = "basket_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JsonIgnore
     private Basket basket;
 
-    @JoinColumn(name = "price_id", referencedColumnName = "id")
-    //@ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @ManyToOne
+    @MapsId("priceId")
+    @JoinColumn(name = "price_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Price price;
 
+    @Column(name="count")
     private Integer count;
 
     public BasketItem() {
     }
 
     public BasketItem(Price product, int count) {
-        this.price=product;
-        this.count=count;
+        this.price = product;
+        this.count = count;
     }
 
-    public Integer getId() {
-        return id;
+
+    public BasketItemPK getBasketItemPk() {
+        return basketItemPk;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setBasketItemPk(BasketItemPK basketItemPk) {
+        this.basketItemPk = basketItemPk;
     }
 
     public Basket getBasket() {
@@ -61,6 +64,7 @@ public class BasketItem implements Serializable{
         this.price = price;
     }
 
+
     public Integer getCount() {
         return count;
     }
@@ -68,4 +72,5 @@ public class BasketItem implements Serializable{
     public void setCount(Integer count) {
         this.count = count;
     }
+
 }
