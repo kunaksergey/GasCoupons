@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
@@ -17,13 +18,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import ua.station.security.JwtAuthenticationEntryPoint;
 import ua.station.security.JwtAuthenticationTokenFilter;
 
-/**
- * Created by sa on 09.11.17.
- */
 @Configuration
 @EnableWebSecurity
 @ComponentScan("ua.station")
-//@Order(value = 101)
+@Order(value = 1)
 public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsService userDetailsService;
@@ -53,24 +51,22 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                // we don't need CSRF because our token is invulnerable
-                .csrf().disable()
 
+                .antMatcher("/api/v1/basket/**").authorizeRequests().anyRequest().hasRole("USER")
+                .and()
+                .csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 
                 // don't create session
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-                .authorizeRequests()
+
                 //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                 // allow anonymous resource requests
-                .antMatchers(
-                        HttpMethod.GET,
-                        "/api/v1/price/"
-                ).permitAll()
-                .antMatchers("/api/v1/token").permitAll()
-                .anyRequest().authenticated();
+//                .antMatchers("/api/v1/price/").permitAll()
+//                .antMatchers("/api/v1/token").permitAll()
+                //.anyRequest().authenticated();
 
         // Custom JWT based security filter
         httpSecurity

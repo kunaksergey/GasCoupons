@@ -22,8 +22,9 @@ public class Basket {
     @JoinColumn(name="user_id")
     User user;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true,
-            targetEntity = BasketItem.class, mappedBy = "basket")
+//    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true,
+//            targetEntity = BasketItem.class, mappedBy = "basket")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "basket")
     private List<BasketItem> basketItems;
 
     @Column(name = "summ")
@@ -62,5 +63,24 @@ public class Basket {
 
     public void setSumm(int summ) {
         this.summ = summ;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Basket basket = (Basket) o;
+
+        if (id != null ? !id.equals(basket.id) : basket.id != null) return false;
+        return user != null ? user.equals(basket.user) : basket.user == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        return result;
     }
 }

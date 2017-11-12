@@ -3,6 +3,7 @@ package ua.station.model.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -13,13 +14,11 @@ import org.springframework.security.core.userdetails.UserDetailsByNameServiceWra
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter;
-
-/**
- * Created by sa on 06.11.17.
- */
-//@Configuration
-//@EnableWebSecurity
-//@EnableGlobalMethodSecurity(securedEnabled = true)//защищает методы
+//
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)//защищает методы
+@Order(value = 2)
 public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -31,10 +30,11 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/v1/price/").permitAll()
-                .antMatchers("/api/v1/basket/**").authenticated()
+//                .antMatchers("/api/v1/price/").permitAll()
+//                .antMatchers("/api/v1/basket/**").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN") //for admin
-                .antMatchers("/resources/**", "/**").permitAll();
+                .antMatchers("/resources/**", "/**").permitAll()
+                .anyRequest().authenticated();
 
 
         http

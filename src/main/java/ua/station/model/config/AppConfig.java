@@ -32,9 +32,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-/**
- * Created by sa on 04.11.17.
- */
 @Configuration
 @EnableTransactionManagement
 //@EnableCaching

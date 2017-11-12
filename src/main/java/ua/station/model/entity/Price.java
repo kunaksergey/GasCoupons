@@ -2,6 +2,7 @@ package ua.station.model.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by sa on 05.11.17.
@@ -21,6 +22,10 @@ public class Price {
     @OneToOne
     @JoinColumn(name = "station_id", referencedColumnName = "id")
     private Station station;
+
+//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true,
+//            targetEntity = BasketItem.class, mappedBy = "price")
+//    private List<BasketItem> basketItems;
 
     private BigDecimal price;
 
@@ -55,5 +60,34 @@ public class Price {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+//    public List<BasketItem> getBasketItems() {
+//        return basketItems;
+//    }
+//
+//    public void setBasketItems(List<BasketItem> basketItems) {
+//        this.basketItems = basketItems;
+//    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Price price = (Price) o;
+
+        if (id != null ? !id.equals(price.id) : price.id != null) return false;
+        if (product != null ? !product.equals(price.product) : price.product != null) return false;
+        return station != null ? station.equals(price.station) : price.station == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (product != null ? product.hashCode() : 0);
+        result = 31 * result + (station != null ? station.hashCode() : 0);
+        return result;
     }
 }
