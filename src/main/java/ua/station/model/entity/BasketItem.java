@@ -29,7 +29,7 @@ public class BasketItem implements Serializable {
     private Price price;
 
     @Column(name="count")
-    private Integer count;
+    private int count;
 
     public BasketItem() {
     }
@@ -65,11 +65,11 @@ public class BasketItem implements Serializable {
     }
 
 
-    public Integer getCount() {
+    public int getCount() {
         return count;
     }
 
-    public void setCount(Integer count) {
+    public void setCount(int count) {
         this.count = count;
     }
 

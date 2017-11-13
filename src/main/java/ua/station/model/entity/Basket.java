@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -28,12 +29,6 @@ public class Basket implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "basket")
     private List<BasketItem> basketItems;
 
-    @Column(name = "summ")
-    @Transient
-    private int summ;
-
-
-
     public Basket() {
 
     }
@@ -56,14 +51,6 @@ public class Basket implements Serializable {
 
     public void setBasketItems(List<BasketItem> basketItems) {
         this.basketItems = basketItems;
-    }
-
-    public int getSumm() {
-        return summ;
-    }
-
-    public void setSumm(int summ) {
-        this.summ = summ;
     }
 
     @Override

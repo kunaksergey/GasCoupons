@@ -3,6 +3,8 @@ package ua.station.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ua.station.model.dto.BasketDto;
+import ua.station.model.dto.BasketItemDto;
 import ua.station.model.entity.Basket;
 import ua.station.model.entity.BasketItem;
 import ua.station.model.entity.Price;
@@ -10,6 +12,7 @@ import ua.station.model.service.BasketItemService;
 import ua.station.model.service.BasketService;
 import ua.station.model.service.PriceService;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.Iterator;
 import java.util.List;
@@ -31,26 +34,18 @@ class BasketRestController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    Basket getBasket(Principal principal) {
-        Basket basket = basketService.findByEmail(principal.getName());
-        return basket;
+    BasketDto getBasket(Principal principal) {
+        BasketDto basketDto = new BasketDto(basketService.findByEmail(principal.getName()));
+        return basketDto;
     }
 
     @RequestMapping(value = "/{idPrice}/count/{count}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    BasketItem add(@PathVariable int idPrice, @PathVariable int count, Principal principal) {
+    BasketItemDto add(@PathVariable int idPrice, @PathVariable int count, Principal principal) {
         Basket basket = basketService.findByEmail(principal.getName());
-
         Price price = priceService.findById(idPrice);
-        BasketItem basketItem = new BasketItem();
-        basketItem.setBasket(basket);
-        basketItem.setPrice(price);
-        basketItem.setCount(count);
-        basketItemService.save(basketItem);
-        basket.getBasketItems().add(basketItem);
-        basket.setSumm(basket.getSumm() + count);
-        basketService.save(basket);
-        return basketItem;
+        BasketItemDto basketItemDto=new BasketItemDto(basketItemService.add(basket,price,count));
+        return basketItemDto;
     }
 
     @RequestMapping(value = "/{idPrice}", method = RequestMethod.DELETE)
