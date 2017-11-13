@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ua.station.model.entity.Basket;
 import ua.station.model.entity.User;
+import ua.station.model.service.BasketService;
 import ua.station.model.service.BasketServiceImpl;
 import ua.station.model.service.UserService;
 
@@ -21,7 +22,7 @@ import static ua.station.controller.BasketController.BASKET_URI;
 public class BasketController {
     static final String BASKET_URI ="/basket/";
     @Autowired
-    BasketServiceImpl basketService;
+    BasketService basketService;
     @Autowired
     UserService userService;
     @RequestMapping("/")

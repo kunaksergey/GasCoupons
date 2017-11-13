@@ -34,8 +34,9 @@ public class BasketItem implements Serializable {
     public BasketItem() {
     }
 
-    public BasketItem(Price product, int count) {
-        this.price = product;
+     public BasketItem(Basket basket, Price price, int count) {
+        this.basket=basket;
+        this.price = price;
         this.count = count;
     }
 

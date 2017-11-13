@@ -2,6 +2,7 @@ package ua.station.model.service;
 
 import ua.station.model.entity.Basket;
 import ua.station.model.entity.BasketItem;
+import ua.station.model.entity.Price;
 import ua.station.model.entity.User;
 
 /**
@@ -10,6 +11,9 @@ import ua.station.model.entity.User;
 public interface BasketService  {
     Basket findByUser(User user);
     Basket findByEmail(String email);
-    void delete(int id, String name);
+    Basket delete(Basket basket, Price price);
     Basket save(Basket basket);
+    Basket add(Basket basket, Price price, int count);
+    Basket update(Basket basket, Price price, int countIn);
+    void clean(Basket basket);
 }

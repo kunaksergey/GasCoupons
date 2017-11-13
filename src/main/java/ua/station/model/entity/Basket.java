@@ -24,9 +24,7 @@ public class Basket implements Serializable {
     @JoinColumn(name="user_id")
     User user;
 
-//    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true,
-//            targetEntity = BasketItem.class, mappedBy = "basket")
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade =  CascadeType.ALL, mappedBy = "basket",orphanRemoval = true)
     private List<BasketItem> basketItems;
 
     public Basket() {
@@ -51,6 +49,14 @@ public class Basket implements Serializable {
 
     public void setBasketItems(List<BasketItem> basketItems) {
         this.basketItems = basketItems;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

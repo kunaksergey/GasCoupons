@@ -11,12 +11,16 @@ import ua.station.model.service.PriceServiceImpl;
 
 import java.util.List;
 
+import static ua.station.api.PriceRestController.PRICE_REST_URI;
+
 /**
  * Created by sa on 05.11.17.
  */
 @RestController
-@RequestMapping("api/v1/price")
+@RequestMapping(PRICE_REST_URI)
 public class PriceRestController {
+    static final String PRICE_REST_URI="api/v1/price";
+
     @Autowired
     PriceService priceService;
 
