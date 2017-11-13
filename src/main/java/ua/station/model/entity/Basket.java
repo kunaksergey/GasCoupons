@@ -26,7 +26,7 @@ public class Basket implements Serializable {
 
 //    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true,
 //            targetEntity = BasketItem.class, mappedBy = "basket")
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "basket")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<BasketItem> basketItems;
 
     public Basket() {

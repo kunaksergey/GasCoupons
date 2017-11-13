@@ -29,7 +29,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-
     public User registerNewUserAccount(UserDto accountDto) throws EmailExistsException {
         if (emailExist(accountDto.getEmail())) {
             throw new EmailExistsException(

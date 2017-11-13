@@ -12,7 +12,6 @@ import ua.station.model.service.BasketItemService;
 import ua.station.model.service.BasketService;
 import ua.station.model.service.PriceService;
 
-import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.Iterator;
 import java.util.List;
@@ -44,6 +43,7 @@ class BasketRestController {
     BasketItemDto add(@PathVariable int idPrice, @PathVariable int count, Principal principal) {
         Basket basket = basketService.findByEmail(principal.getName());
         Price price = priceService.findById(idPrice);
+        if(price==null) return new BasketItemDto();
         BasketItemDto basketItemDto=new BasketItemDto(basketItemService.add(basket,price,count));
         return basketItemDto;
     }
@@ -51,18 +51,10 @@ class BasketRestController {
     @RequestMapping(value = "/{idPrice}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     void delete(@PathVariable int idPrice, Principal principal) {
-        BasketItem basketItemDeleted = null;///????
+        Price price = priceService.findById(idPrice);
         Basket basket = basketService.findByEmail(principal.getName());
-        List<BasketItem> basketItems = basket.getBasketItems();
-        Iterator<BasketItem> iterator = basketItems.iterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().equals(basketItemDeleted)) {
-                iterator.remove();
-                break;
-            }
-        }
-        basketService.save(basket);
-    }
+        basketItemService.deleteByBasketAndPrice(basket,price);
+     }
 
 
     @RequestMapping(value = "/{idPrice}/count/{count}", method = RequestMethod.PUT)
