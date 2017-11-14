@@ -1,29 +1,33 @@
 package ua.station.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Created by sa on 05.11.17.
  */
 @Entity
-@Table(name = "orders_item")
-public class OrderItem {
+@Table(name = "order_item")
+public class OrderItem implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
-    @JoinColumn(name = "order_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "order_id")
     private Order order;
 
-    @JoinColumn(name = "product_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_id")
+    @ManyToOne
     private Product product;
+
+    @JoinColumn(name = "station_id")
+    @ManyToOne
+    private Station station;
 
     @Column(name="price")
     private BigDecimal price;
@@ -34,11 +38,15 @@ public class OrderItem {
     @Column(name="summ")
     private BigDecimal summ;
 
-    public OrderItem(Product product, BigDecimal price, int count, BigDecimal summ) {
+    public OrderItem() {
+    }
+
+    public OrderItem(Product product, Station station,BigDecimal price, int count, BigDecimal summ) {
         this.product=product;
         this.price=price;
         this.count=count;
         this.summ=summ;
+        this.station=station;
     }
 
     public Product getProduct() {
@@ -87,5 +95,13 @@ public class OrderItem {
 
     public void setSumm(BigDecimal summ) {
         this.summ = summ;
+    }
+
+    public Station getStation() {
+        return station;
+    }
+
+    public void setStation(Station station) {
+        this.station = station;
     }
 }

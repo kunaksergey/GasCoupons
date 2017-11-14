@@ -2,41 +2,49 @@ package ua.station.model.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.station.model.entity.Basket;
+import ua.station.model.entity.BasketItem;
 import ua.station.model.entity.Order;
 import ua.station.model.entity.OrderItem;
-import ua.station.model.entity.Product;
 import ua.station.model.repository.OrderRepository;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by sa on 04.11.17.
  */
 @Service("orderService")
+@Transactional
 public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderRepository orderRepository;
 
+    @Autowired
+    BasketService basketService;
     @Override
     public Order create(Basket basket) {
-        Order order= new Order();
-        List<OrderItem> orderItemList=new ArrayList<>();
-        BigDecimal summAll=new BigDecimal(0);
-        basket.getBasketItems().forEach(item->{
-            Product product=item.getPrice().getProduct();
-            BigDecimal price=item.getPrice().getPrice();
-            int count=item.getCount();
-            BigDecimal summ=price.multiply(new BigDecimal(count));
-            summAll.add(summ);
-            orderItemList.add(new OrderItem(product,price,count,summ));
-          });
-
-        order.setOrderItemList(orderItemList);
-        order.setSumm(summAll);
-        order.setUser(basket.getUser());
+        Order order = new Order();
+        BigDecimal summAll = new BigDecimal(0);
+        for (BasketItem item : basket.getBasketItems()) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setProduct(item.getPrice().getProduct());//добавляем продукт
+            orderItem.setStation(item.getPrice().getStation());//добавляем станцию
+            orderItem.setCount(item.getCount());//добавляем кол-во
+            orderItem.setPrice(item.getPrice().getPrice()); //добавляем стоимость
+            orderItem.setSumm(                              //добавляем сумму
+                    item.getPrice().getPrice().multiply(
+                            new BigDecimal(item.getCount())
+                    )
+            );
+            summAll = summAll.add(orderItem.getSumm()); //считаем общую сумму
+            order.addOrderItem(orderItem); //добавляем в список
+        }
+        order.setSumm(summAll); //общая сумма заказа
+        order.setUser(basket.getUser()); //пользователь заказа
+        order.setStatus(0); //статус-подготовлен
+        basketService.clean(basket);
         return orderRepository.save(order);
+
     }
 }

@@ -1,5 +1,6 @@
 package ua.station.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import ua.station.model.entity.Basket;
 
 import java.math.BigDecimal;
@@ -11,14 +12,15 @@ import java.util.List;
  */
 public class BasketDto {
 
-    private List<BasketItemDto> basketItemDtoList=new ArrayList<>();
+    @JsonProperty("details")
+    private List<BasketItemDto> basketItemDtoList = new ArrayList<>();
     private BigDecimal summ = new BigDecimal(0);
 
     public BasketDto(Basket basket) {
         basket.getBasketItems().forEach(item -> {
-            basketItemDtoList.add(new BasketItemDto(item));
-            summ=summ.add(item.getPrice().getPrice().multiply(new BigDecimal(item.getCount())));
-            }
+                    basketItemDtoList.add(new BasketItemDto(item));
+                    summ = summ.add(item.getPrice().getPrice().multiply(new BigDecimal(item.getCount())));
+                }
         );
     }
 

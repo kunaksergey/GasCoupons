@@ -11,9 +11,10 @@ import ua.station.model.entity.User;
 public interface BasketService  {
     Basket findByUser(User user);
     Basket findByEmail(String email);
-    Basket delete(Basket basket, Price price);
+    Basket deletePrice(Basket basket, Price price);
     Basket save(Basket basket);
-    Basket add(Basket basket, Price price, int count);
-    Basket update(Basket basket, Price price, int countIn);
+    Basket addPrice(Basket basket, Price price, int count);
+    Basket updatePrice(Basket basket, Price price, int countIn);
     void clean(Basket basket);
+    boolean isEmpty(Basket basket);
 }

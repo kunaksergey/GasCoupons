@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -22,7 +21,7 @@ public class Basket implements Serializable {
     @JsonIgnore
     @OneToOne
     @JoinColumn(name="user_id")
-    User user;
+    private User user;
 
     @OneToMany(fetch = FetchType.EAGER, cascade =  CascadeType.ALL, mappedBy = "basket",orphanRemoval = true)
     private List<BasketItem> basketItems;

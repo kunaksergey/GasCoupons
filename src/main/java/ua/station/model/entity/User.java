@@ -32,8 +32,12 @@ public class User implements Serializable {
     @Column(name="password")
     private String password;
 
-    @OneToOne(cascade = CascadeType.ALL,mappedBy = "user")
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "user",fetch =FetchType.LAZY)
     private Basket basket;
+
+    @Transient
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user",fetch =FetchType.LAZY)
+    private List<Order> orderList;
 
     @Column(name="status")
     private boolean status=true;
@@ -43,7 +47,7 @@ public class User implements Serializable {
     @JoinTable (name = "user_role_detail",
             joinColumns = @JoinColumn (name = "USER_ID"),
             inverseJoinColumns =@JoinColumn(name = "ROLE_ID"))
-    Set<Role> roles=new HashSet<>();
+    private Set<Role> roles=new HashSet<>();
 
     public User() {
     }
@@ -106,6 +110,14 @@ public class User implements Serializable {
 
     public void setBasket(Basket basket) {
         this.basket = basket;
+    }
+
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
     }
 
     @Override

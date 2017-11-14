@@ -43,8 +43,9 @@ public class BasketServiceImpl implements BasketService {
         return basketRepository.save(basket);
     }
 
+    //добавляем в корзину позицию
     @Override
-    public Basket add(Basket basket, Price price, int countIn) {
+    public Basket addPrice(Basket basket, Price price, int countIn) {
         boolean isNew = true;
         for (BasketItem item : basket.getBasketItems()) {
             if (item.getPrice().equals(price)) {
@@ -60,8 +61,9 @@ public class BasketServiceImpl implements BasketService {
         return basketRepository.save(basket);
     }
 
+    //Удаляем из корзины позицию
     @Override
-    public Basket delete(Basket basket, Price price) {
+    public Basket deletePrice(Basket basket, Price price) {
         Iterator<BasketItem> iterator = basket.getBasketItems().iterator();
         while (iterator.hasNext()) {
             BasketItem next = iterator.next();
@@ -69,25 +71,33 @@ public class BasketServiceImpl implements BasketService {
                 iterator.remove();
             }
         }
-       return basketRepository.save(basket);
+        return basketRepository.save(basket);
     }
 
+    //обновляем позицию в корзине
     @Override
-    public Basket update(Basket basket, Price price, int countIn) {
+    public Basket updatePrice(Basket basket, Price price, int countIn) {
 
         for (BasketItem item : basket.getBasketItems()) {
             if (item.getPrice().equals(price)) {
-                int count = (countIn > 0)?( countIn) : 0;
+                int count = (countIn > 0) ? (countIn) : 0;
                 item.setCount(count);
-           }
+            }
         }
 
         return basketRepository.save(basket);
     }
 
+    //Очищаем корзину
     @Override
     public void clean(Basket basket) {
         basket.setBasketItems(new ArrayList<BasketItem>());
         basketRepository.save(basket);
+    }
+
+    //Проверяем пуста ли корзина
+    @Override
+    public boolean isEmpty(Basket basket) {
+        return basket.getBasketItems().size()>0;
     }
 }

@@ -1,11 +1,10 @@
 package ua.station.model.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,18 +18,26 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @JsonIgnore
-    @Column(name="user")
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade =  CascadeType.ALL, mappedBy = "order",orphanRemoval = true)
-    private List<OrderItem> orderItemList;
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "order",orphanRemoval = true)
+     private List<OrderItem> orderItemList=new ArrayList<>();
 
     @Column(name="summ")
     private BigDecimal summ;
 
     @Column(name="status")
     private Integer status;
+
+    public Order() {
+    }
+
+    public void addOrderItem(OrderItem orderItem){
+        orderItem.setOrder(this);
+        orderItemList.add(orderItem);
+    }
 
     public Integer getId() {
         return id;
