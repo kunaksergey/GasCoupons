@@ -9,6 +9,7 @@
 
 #page-login{
     display: none;
+    background-color: darkgrey;
     width: 250px;
     height: 250px;
     position: absolute;
@@ -29,4 +30,8 @@
 
 .price-line>span{
     margin: 20px;
+}
+
+.error{
+    color: red;
 }

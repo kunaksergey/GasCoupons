@@ -50,7 +50,8 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
+
+          httpSecurity
 
                 .antMatcher("/api/v1/basket/**").authorizeRequests().anyRequest().hasRole("USER")
                 .and()

@@ -35,6 +35,9 @@ public class AuthRestController {
 
         //JwtAuthenticationRequest jwtAuthRequest=new JwtAuthenticationRequest(name,pass);
         // Perform the security
+        try {
+
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         jwtAuthRequest.getUsername(),
@@ -49,5 +52,9 @@ public class AuthRestController {
 
         // Return the token
         return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+        }catch (AuthenticationException ex){
+            return ResponseEntity.status(401).body("");
+        }
+
     }
 }

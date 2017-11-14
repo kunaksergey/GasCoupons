@@ -30,8 +30,6 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-//                .antMatchers("/api/v1/price/").permitAll()
-//                .antMatchers("/api/v1/basket/**").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN") //for admin
                 .antMatchers("/resources/**", "/**").permitAll()
                 .anyRequest().authenticated();
