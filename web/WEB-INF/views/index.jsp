@@ -28,6 +28,7 @@
 
 <div id="price-content">
 </div>
+
 <div id="login-content">
     <div id="page-login">
         <p><a id="login-close" href="#">Close</a></p>
@@ -37,6 +38,13 @@
         <p>
             <button id="sendAuth">Enter</button>
         </p>
+    </div>
+</div>
+
+<div id="basket">
+    <div id="basket-content">
+        <p><a id="basket-close" href="#">Close</a></p>
+        <div id="basket-body"></div>
     </div>
 </div>
 </body>

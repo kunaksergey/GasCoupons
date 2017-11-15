@@ -35,3 +35,10 @@
 .error{
     color: red;
 }
+
+#basket-content{
+    display: none;
+    background-color: burlywood;
+    height: 400px;
+    width: 600px;
+}

@@ -1,20 +1,23 @@
 $(document).ready(function () {
     var urlLogin = '/api/v1/token';
+    var urlPrice = '/api/v1/price';
+    var urlBasket = '/api/v1/basket';
+
 
     $("#basket-link").on("click", function (event) {
         var token = $.cookie("coupon-token");
         if (token == null) {
             login_dialog();
-
         } else {
             console.log($.cookie("coupon-token"));
+            getBasket($.cookie("coupon-token"));
         }
     });
 
 
     $.ajax({
         type: 'GET',
-        url: '/api/v1/price/',
+        url: urlPrice,
         dataType: 'json',
         success: function (data) {
             var priceListDiv = $("#price-content");
@@ -83,7 +86,10 @@ $(document).ready(function () {
             $("#page-login").css("display", "none");
         });
 
+
         $("#sendAuth").on("click", function (event) {
+            var LOGIN = $("#login").val();
+            var PASS = $("#pass").val();
             $.ajax
             ({
                 type: 'POST',
@@ -95,6 +101,7 @@ $(document).ready(function () {
                 success: function (data) {
                     $.cookie("coupon-token", data.token);
                     $("#page-login").css("display", "none");
+                    getBasket(data.token);
 
                 },
                 error: function (xhr, ajaxOptions, throwError) {
@@ -107,6 +114,55 @@ $(document).ready(function () {
 
     };
     /*******************************************************/
+    var getBasket = function (token) {
+        $.ajax
+        ({
+            type: 'GET',
+            url: urlBasket,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Accept', 'application/json');
+                xhr.setRequestHeader('Authorization', make_token(token));
+            },
+            success: function (data) {
+                show_basket(data);
+            },
+            error: function (xhr, ajaxOptions, throwError) {
+                console.log("Error");
+            }
+        });
+    };
+    /*******************************************************/
+    //Показываем корзину
+    var show_basket = function (data) {
+        $("#basket-content").css("display", "block");
+        $("#basket-close").on("click", function (event) {
+            $("#basket-content").css("display", "none");
+        });
+        $("#basket-body").html(basketToHtml(data));
+
+    };
+    /*******************************************************/
+
+    /*******************************************************/
+    //Показываем корзину
+    var basketToHtml = function (data) {
+        var html = '<table><th>Product</th><th>Station</th><th>Count</th><th>Price</th><th>Summ</th>';
+        $.each(data.basketItemDtoList, function (index, value) {
+            console.log(value);
+            html += '<tr>' +
+                '<td>{name}</td>'.replace('{name}',value.price.product.name) +
+                '<td>{station}</td>'.replace('{station}',value.price.station.name) +
+                '<td>{count}</td>'.replace('{count}',value.count) +
+                '<td>{price}</td>'.replace('{price}',value.price.price) +
+                '<td>{summ}</td>'.replace('{summ}',value.summ) +
+                '</tr>'
+        });
+
+        html += '<tr><td colspan="5">' + data.summ + '</td></tr>';
+        html += '</table>';
+        return html;
+    };
+    /*******************************************************/
 
 
 });
@@ -115,6 +171,10 @@ function make_base_auth(user, password) {
     var tok = user + ':' + password;
     var hash = btoa(tok);
     return "Basic " + hash;
+}
+
+function make_token(token) {
+    return "Bearer " + token;
 }
 
 // $(".price-link").on("click", function (event) {

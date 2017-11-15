@@ -17,7 +17,7 @@ import java.util.List;
 @JsonRootName("basket")
 public class BasketDto {
 
-    @JsonSerialize(using = BasketItemSerializer.class)
+    //@JsonSerialize(using = BasketItemSerializer.class)
     private List<BasketItemDto> basketItemDtoList = new ArrayList<>();
 
     @JsonProperty("summ")
