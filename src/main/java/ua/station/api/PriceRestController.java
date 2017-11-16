@@ -2,6 +2,7 @@ package ua.station.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.station.model.entity.Price;
@@ -24,14 +25,12 @@ public class PriceRestController {
     @Autowired
     PriceService priceService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    @ResponseBody
+    @RequestMapping(method = RequestMethod.GET,produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     Iterable<Price> priceList() {
          return priceService.findAll();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    @ResponseBody
     Price price(@PathVariable int id) {
         return priceService.findById(id);
     }

@@ -12,23 +12,21 @@
 <body>
 <div class="container-login">
 
+    <sec:authorize access="isAuthenticated()">
+        <p>Ваш логин: <sec:authentication property="principal.username"/></p>
+        <p><a href="<c:url value="/logout" />" role="button">Выйти</a></p>
+    </sec:authorize>
+
     <div style="margin-top: 20px;">
-        <sec:authorize access="!isAuthenticated()">
-            <p><a href="<c:url value="/login" />" role="button">Войти</a></p>
-            <p><a href="<c:url value="/registration" />" role="button">Регистрация</a></p>
-            <p><a href="<c:url value="/admin" />" role="button">Adminka</a></p>
-        </sec:authorize>
-        <sec:authorize access="isAuthenticated()">
-            <p>Ваш логин: <sec:authentication property="principal.username"/></p>
-            <p><a href="<c:url value="/logout" />" role="button">Выйти</a></p>
-        </sec:authorize>
-        <p>Корзина:<a id="basket-link" href="#">Корзина</a></p>
+         <p><a href="<c:url value="/registration"/>" role="button">Регистрация</a></p>
+         <p><a href="<c:url value="/admin" />" role="button">Adminka</a></p>
+         <p>Корзина:<a id="basket-link" href="#">Корзина</a></p>
     </div>
 </div>
 
-<div id="price-content">
-</div>
 
+<a id="delete-token" href="#">del token</a>
+<a id="change-token" href="#">change token</a>
 <div id="login-content">
     <div id="page-login">
         <p><a id="login-close" href="#">Close</a></p>
@@ -38,6 +36,12 @@
         <p>
             <button id="sendAuth">Enter</button>
         </p>
+    </div>
+</div>
+
+<div id="price">
+    <div id="price-content">
+        <div id="price-body"></div>
     </div>
 </div>
 

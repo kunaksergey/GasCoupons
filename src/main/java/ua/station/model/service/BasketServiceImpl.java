@@ -80,8 +80,10 @@ public class BasketServiceImpl implements BasketService {
 
         for (BasketItem item : basket.getBasketItems()) {
             if (item.getPrice().equals(price)) {
-                int count = (countIn > 0) ? (countIn) : 0;
+                int countItem=item.getCount();
+                int count = ((countIn+countItem) > 0) ? (countIn+countItem) : 0;
                 item.setCount(count);
+                break;
             }
         }
 
