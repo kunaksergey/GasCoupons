@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.station.model.entity.Basket;
+import ua.station.model.entity.Role;
 import ua.station.model.entity.User;
 import ua.station.model.entity.UserDto;
 import ua.station.model.exception.EmailExistsException;
@@ -36,6 +37,7 @@ public class UserServiceImpl implements UserService {
                             +  accountDto.getEmail());
         }
         User user=new User(accountDto.getEmail(), accountDto.getPassword());
+        user.getRoles().add(new Role("ROLE_USER"));
         user=userRepository.save(user);
         basketRepository.save(new Basket(user));
         return user;

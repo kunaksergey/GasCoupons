@@ -44,7 +44,7 @@ public class AuthRestController {
                         jwtAuthRequest.getPassword()
                 )
         );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        //SecurityContextHolder.getContext().setAuthentication(authentication); //statless
 
         // Reload password post-security so we can generate token
         final UserDetails userDetails = userDetailsService.loadUserByUsername(jwtAuthRequest.getUsername());

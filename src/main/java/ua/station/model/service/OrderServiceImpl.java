@@ -7,6 +7,7 @@ import ua.station.model.entity.Basket;
 import ua.station.model.entity.BasketItem;
 import ua.station.model.entity.Order;
 import ua.station.model.entity.OrderItem;
+import ua.station.model.exception.BasketEmptyExeption;
 import ua.station.model.repository.OrderRepository;
 
 import java.math.BigDecimal;
@@ -22,11 +23,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     BasketService basketService;
+
     @Override
-    public Order create(Basket basket) {
+    public Order create(Basket basket) throws BasketEmptyExeption {
         Order order = new Order();
         BigDecimal summAll = new BigDecimal(0);
         for (BasketItem item : basket.getBasketItems()) {
+            if(item.getCount()==0){
+                continue;
+            } //если кол-во=0, то пропускаем
             OrderItem orderItem = new OrderItem();
             orderItem.setProduct(item.getPrice().getProduct());//добавляем продукт
             orderItem.setStation(item.getPrice().getStation());//добавляем станцию
@@ -40,6 +45,7 @@ public class OrderServiceImpl implements OrderService {
             summAll = summAll.add(orderItem.getSumm()); //считаем общую сумму
             order.addOrderItem(orderItem); //добавляем в список
         }
+        if(summAll.equals(new BigDecimal(0))) throw new BasketEmptyExeption("Basket is Empty");
         order.setSumm(summAll); //общая сумма заказа
         order.setUser(basket.getUser()); //пользователь заказа
         order.setStatus(0); //статус-подготовлен

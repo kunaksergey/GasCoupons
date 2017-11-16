@@ -51,16 +51,18 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 
+
+
           httpSecurity
 
                 .antMatcher("/api/v1/basket/**").authorizeRequests().anyRequest().hasRole("USER")
                 .and()
                 .csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
+                .and()
                 // don't create session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+                ;
 
                 //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 

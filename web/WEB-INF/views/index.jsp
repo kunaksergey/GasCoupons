@@ -12,15 +12,10 @@
 <body>
 <div class="container-login">
 
-    <sec:authorize access="isAuthenticated()">
-        <p>Ваш логин: <sec:authentication property="principal.username"/></p>
-        <p><a href="<c:url value="/logout" />" role="button">Выйти</a></p>
-    </sec:authorize>
-
     <div style="margin-top: 20px;">
-         <p><a href="<c:url value="/registration"/>" role="button">Регистрация</a></p>
-         <p><a href="<c:url value="/admin" />" role="button">Adminka</a></p>
-         <p>Корзина:<a id="basket-link" href="#">Корзина</a></p>
+        <p><a href="<c:url value="/registration"/>" role="button">Регистрация</a></p>
+        <p><a href="<c:url value="/admin" />" role="button">Adminka</a></p>
+        <p>Корзина:<a id="basket-link" href="#">Корзина</a></p>
     </div>
 </div>
 

@@ -8,6 +8,7 @@ import ua.station.model.dto.BasketDto;
 import ua.station.model.dto.OrderDTO;
 import ua.station.model.entity.Basket;
 import ua.station.model.entity.Price;
+import ua.station.model.exception.BasketEmptyExeption;
 import ua.station.model.service.BasketService;
 import ua.station.model.service.OrderService;
 import ua.station.model.service.PriceService;
@@ -65,8 +66,13 @@ class BasketRestController {
     @ResponseStatus(HttpStatus.OK)
     OrderDTO order(Principal principal){
         Basket basket = basketService.findByEmail(principal.getName());
-        OrderDTO orderDTO = new OrderDTO(orderService.create(basket));
-        return orderDTO;
+        OrderDTO orderDTO = null;
+        try {
+            orderDTO = new OrderDTO(orderService.create(basket));
+            return orderDTO;
+        } catch (BasketEmptyExeption basketEmptyExeption) {
+            basketEmptyExeption.printStackTrace();
+            return null;
+        }
     }
-
 }

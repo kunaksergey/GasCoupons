@@ -116,14 +116,41 @@ $(document).ready(function () {
             }
         });
     };
+
+   
+    
+    /*******************************************************/
+    //Показываем успешный заказ
+    var show_success_order = function (data) {
+        create_success_order(data);
+    };
+    
+    
+    /*******************************************************/
+    //Ошибка заказа
+    var show_error_order = function () {
+        create_error_order();
+    };
+  
+    
     /*******************************************************/
     //Показываем корзину
     var show_basket = function (data) {
         $("#basket-content").css("display", "block");
         create_basket_body(data);
     };
+    
     /*******************************************************/
-
+   var create_success_order=function (data) {
+       $("#basket-body").html(orderToHtml(data)); 
+   };
+    
+    /*******************************************************/
+    var create_error_order=function () {
+        $("#basket-body").html(errorOrderToHtml());
+    }; 
+    
+    /*******************************************************/
     var create_basket_body = function (data) {
         $("#basket-body").html(basketToHtml(data)); //показываем корзину
 
@@ -170,7 +197,7 @@ $(document).ready(function () {
             });
         });
 
-        // //удаляем позицию из корзины
+         //удаляем позицию из корзины
         $('button[name="del-position"]').on("click", function (event) {
             var priceId = $(event.target).data('item');
             
@@ -190,6 +217,28 @@ $(document).ready(function () {
                 }
             });
         });
+        
+        //заказ
+        $('a[name="order"]').on("click", function (event) {
+            // to order
+            console.log("order");
+            $.ajax
+            ({
+                type: 'POST',
+                url: urlBasket + '/order',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', make_token($.cookie('coupon-token')));
+                },
+                success: function (data) {
+                    show_success_order(data);
+                },
+                error: function (xhr, ajaxOptions, throwError) {
+                    show_error_order();
+                }
+            });
+        });
+        
+        
     };
 
     /*******************************************************/
@@ -237,9 +286,23 @@ $(document).ready(function () {
 
         html += '<tr><td colspan="5">Total: {total}</td></tr>'.replace('{total}', data.summ);
         html += '</table>';
+        if(data.summ>0){
+            html+='<div><a name="order" href="#">Заказать</a></div>';
+        }
         return html;
     };
+    
     /*******************************************************/
+    var orderToHtml=function(data){
+        var html ='<div>ORDERED</div>';
+       return html;
+    };
+    
+    /********************************************************/
+    var errorOrderToHtml=function(){
+        var html='Error. Try later';
+        return html;
+    }
 });
 
 
