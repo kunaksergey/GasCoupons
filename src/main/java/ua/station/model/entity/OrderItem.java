@@ -104,4 +104,28 @@ public class OrderItem implements Serializable{
     public void setStation(Station station) {
         this.station = station;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        OrderItem orderItem = (OrderItem) o;
+
+        if (id != null ? !id.equals(orderItem.id) : orderItem.id != null) return false;
+        if (order != null ? !order.equals(orderItem.order) : orderItem.order != null) return false;
+        if (product != null ? !product.equals(orderItem.product) : orderItem.product != null) return false;
+        return station != null ? station.equals(orderItem.station) : orderItem.station == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (order != null ? order.hashCode() : 0);
+        result = 31 * result + (product != null ? product.hashCode() : 0);
+        result = 31 * result + (station != null ? station.hashCode() : 0);
+        return result;
+    }
 }
+

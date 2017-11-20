@@ -14,7 +14,7 @@
         </sec:authorize>
         <sec:authorize access="isAuthenticated()">
             <p>Ваш логин: <sec:authentication property="principal.username"/></p>
-            <a href="/admin/order/">Orders</a>
+            <a href="/admin/orders/prepared">Orders</a>
             <a href="/admin/basket/">Baskets</a>
             <a href="/admin/user/">Users</a>
             <a href="/admin/product/">Products</a>
