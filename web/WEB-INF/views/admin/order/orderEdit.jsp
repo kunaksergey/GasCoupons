@@ -25,7 +25,15 @@
             <td><c:out value="${item.price}"/></td>
             <td><c:out value="${item.count}"/></td>
             <td><c:out value="${item.summ}"/></td>
-            <td><a href="/admin/orders/delete/${order.id}/item/${item.id}">delete</a></td>
+            <td>
+                <c:url var="deleteUrl" value="/admin/orders/delete-item"/>
+                <form id="item_${item.id}" action="${deleteUrl}" method="POST">
+                    <input type="hidden" name="id"  value="${order.id}"/>
+                    <input type="hidden" id="${item.id}" name="itemId" value="${item.id}"/>
+                    <input type="submit" value="delete"  class="delete-submit" onClick="return confirm('sure?')"/>
+                </form>
+            </td>
+
         </tr>
     </c:forEach>
 </table>

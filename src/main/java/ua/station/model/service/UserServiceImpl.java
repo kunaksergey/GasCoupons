@@ -9,6 +9,7 @@ import ua.station.model.entity.Role;
 import ua.station.model.entity.User;
 import ua.station.model.entity.UserDto;
 import ua.station.model.exception.EmailExistsException;
+import ua.station.model.exception.EntityIsNotExistException;
 import ua.station.model.repository.BasketRepository;
 import ua.station.model.repository.UserRepository;
 
@@ -50,15 +51,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(int id) {
+    public User findById(int id) throws EntityIsNotExistException {
         Optional<User> byId = userRepository.findById(id);
-        return byId.isPresent()?byId.get():null;
+        if(!byId.isPresent()) throw new EntityIsNotExistException("User is not found");
+        return byId.get();
     }
 
     @Override
     public void save(User user) {
         userRepository.save(user);
     }
+
+    @Override
+    public void delete(int id) throws EntityIsNotExistException {
+        userRepository.delete(findById(id));
+    }
+
     private boolean emailExist(String email) {
         User user = userRepository.findByEmail(email);
         return user != null;

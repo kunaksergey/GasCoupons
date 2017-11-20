@@ -32,7 +32,13 @@
                 </c:if>
             </td>
             <td><a name="edit" href="/admin/orders/edit/${order.id}">edit</a></td>
-            <td><a name="delete" href="/admin/orders/delete/${order.id}">delete</a></td>
+            <td>
+                <c:url var="deleteUrl" value="/admin/orders/delete"/>
+                <form id="${order.id}" action="${deleteUrl}" method="POST">
+                    <input id="order_${order.id}" name="id" type="hidden" value="${order.id}"/>
+                    <input type="submit" value="delete"  class="delete-submit" onClick="return confirm('sure?')"/>
+                </form>
+            </td>
         </tr>
     </c:forEach>
 </table>

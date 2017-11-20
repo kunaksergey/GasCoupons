@@ -8,15 +8,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ua.station.model.entity.Product;
-import ua.station.model.entity.User;
 import ua.station.model.service.ProductService;
+
+import static ua.station.controller.ProductController.PRODUCT_URI;
 
 /**
  * Created by sa on 07.11.17.
  */
 @Controller
-@RequestMapping("/admin/product")
+@RequestMapping(PRODUCT_URI)
 public class ProductController {
+    static final String PRODUCT_URI = "/admin/product";
+
     @Autowired
     ProductService productService;
 

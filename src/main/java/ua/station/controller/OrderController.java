@@ -6,7 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ua.station.model.exception.OrderIsNotExistException;
+import org.springframework.web.bind.annotation.RequestParam;
+import ua.station.model.exception.EntityIsNotExistException;
 import ua.station.model.service.OrderService;
 
 import static ua.station.controller.OrderController.ORDER_URI;
@@ -50,7 +51,7 @@ public class OrderController {
             orderService.changeStatus(id, 1);
             model.addAttribute("orders", orderService.findAllByStatus(1));
             return "redirect:" + ORDER_URI + "/done";
-        } catch (OrderIsNotExistException e) {
+        } catch (EntityIsNotExistException e) {
             return "404";
         }
 
@@ -62,7 +63,7 @@ public class OrderController {
             orderService.changeStatus(id, 0);
             model.addAttribute("orders", orderService.findAllByStatus(0));
             return "redirect:" + ORDER_URI + "/prepared";
-        } catch (OrderIsNotExistException e) {
+        } catch (EntityIsNotExistException e) {
             return "404";
         }
 
@@ -73,30 +74,31 @@ public class OrderController {
         try {
             model.addAttribute("order", orderService.findOne(id));
             return "/admin/order/orderEdit";
-        } catch (OrderIsNotExistException e) {
+        } catch (EntityIsNotExistException e) {
             return "404";
         }
 
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-    String delete(@PathVariable int id, Model model) {
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    String delete(@RequestParam int id, Model model) {
         try {
             orderService.delete(id);
             return "redirect:" + ORDER_URI + "/prepared";
-        } catch (OrderIsNotExistException e) {
+        } catch (EntityIsNotExistException e) {
             return "404";
         }
-
     }
 
-    @RequestMapping(value = "/delete/{id}/item/{idItem}", method = RequestMethod.GET)
-    String deleteItem(@PathVariable int id,@PathVariable int idItem, Model model) {
+
+
+    @RequestMapping(value = "/delete-item", method = RequestMethod.POST)
+    String deleteItem(@RequestParam int id,@RequestParam int itemId, Model model) {
         try {
-            orderService.deleteItem(id,idItem);
+            orderService.deleteItem(id,itemId);
             model.addAttribute("order", orderService.findOne(id));
             return "/admin/order/orderEdit";
-        } catch (OrderIsNotExistException e) {
+        } catch (EntityIsNotExistException e) {
             return "404";
         }
 

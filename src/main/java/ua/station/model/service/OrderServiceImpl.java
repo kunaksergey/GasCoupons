@@ -8,7 +8,7 @@ import ua.station.model.entity.BasketItem;
 import ua.station.model.entity.Order;
 import ua.station.model.entity.OrderItem;
 import ua.station.model.exception.BasketEmptyExeption;
-import ua.station.model.exception.OrderIsNotExistException;
+import ua.station.model.exception.EntityIsNotExistException;
 import ua.station.model.repository.OrderRepository;
 
 import java.math.BigDecimal;
@@ -67,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order changeStatus(int id, int status) throws OrderIsNotExistException {
+    public Order changeStatus(int id, int status) throws EntityIsNotExistException {
         Order order = findOne(id);
         if (order != null) {
             order.setStatus(status);
@@ -77,20 +77,20 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order findOne(int id) throws OrderIsNotExistException {
+    public Order findOne(int id) throws EntityIsNotExistException {
         Optional<Order> byId = orderRepository.findById(id);
-        if (!byId.isPresent()) throw new OrderIsNotExistException("There is not order");
+        if (!byId.isPresent()) throw new EntityIsNotExistException("There is not order");
         return byId.get();
     }
 
     @Override
-    public void delete(int id) throws OrderIsNotExistException {
+    public void delete(int id) throws EntityIsNotExistException {
         System.out.println();
         orderRepository.delete(findOne(id));
     }
 
     @Override
-    public void deleteItem(int id, int idItem) throws OrderIsNotExistException {
+    public void deleteItem(int id, int idItem) throws EntityIsNotExistException {
         Order order = findOne(id);
         for (OrderItem item : order.getOrderItemList()) {
             if (item.getId() == idItem) {

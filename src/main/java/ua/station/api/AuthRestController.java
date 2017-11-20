@@ -53,7 +53,7 @@ public class AuthRestController {
         // Return the token
         return ResponseEntity.ok(new JwtAuthenticationResponse(token));
         }catch (AuthenticationException ex){
-            return ResponseEntity.status(401).body("");
+            return ResponseEntity.status(401).body("{}");
         }
 
     }
