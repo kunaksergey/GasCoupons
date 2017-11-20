@@ -65,7 +65,6 @@ $(document).ready(function () {
             $('a[name="add"]').on("click", function (event) {
 
                 var priceId = $(event.target).data('item');
-                // console.log(urlBasket + '/price/{idPrice}/count/20'.replace('{idPrice}', priceId));
 
                 //add in basket
                 $.ajax
@@ -251,7 +250,8 @@ $(document).ready(function () {
             html += '<tr>' +
                 '<td>{name}</td>'.replace('{name}', value.product.name) +
                 '<td>{station}</td>'.replace('{station}', value.station.name) +
-                '<td>{price}</td>'.replace('{price}', value.price) +
+                '<td>{price}</td>'.replace('{price}', priceFormat(value.price)) +
+                    
                 '<td><a href="#" name="add" data-item={id}>add</a></td>'.replace('{id}', value.id) +
                 '</tr>';
         });
@@ -274,8 +274,8 @@ $(document).ready(function () {
                 '<td>{name}</td>'.replace('{name}', value.price.product.name) +
                 '<td>{station}</td>'.replace('{station}', value.price.station.name) +
                 '<td>{count}</td>'.replace('{count}', value.count) +
-                '<td>{price}</td>'.replace('{price}', value.price.price) +
-                '<td>{summ}</td>'.replace('{summ}', value.summ) +
+                '<td>{price}</td>'.replace('{price}', priceFormat(value.price.price)) +
+                '<td>{summ}</td>'.replace('{summ}', priceFormat(value.summ)) +
                 '<td><button name="decrease" data-item="{id}">-</button></td>'.replace('{id}', value.price.id) +
                 '<td><button name="increase" data-item="{id}">+</button></td>'.replace('{id}', value.price.id) +
                 '<td><button name="del-position" data-item="{id}">X</button></td>'.replace('{id}', value.price.id) +
@@ -317,3 +317,7 @@ function make_token(token) {
 }
 
        
+function priceFormat(value){
+    return parseFloat(value, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString()
+    
+}

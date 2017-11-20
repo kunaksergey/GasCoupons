@@ -1,5 +1,9 @@
 package ua.station.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import ua.station.util.PriceSerializer;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -27,6 +31,7 @@ public class Price implements Serializable{
     public Price() {
     }
 
+    //@JsonSerialize(using = PriceSerializer.class)
     private BigDecimal price;
 
     public Integer getId() {

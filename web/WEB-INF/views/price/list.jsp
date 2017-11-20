@@ -92,20 +92,7 @@
 </div>
 </div>
 <input type="button" id="but"/>
-<%--<div id="basket">--%>
-<%--<div id="basketbody">--%>
-<%--<table>--%>
-<%--<c:forEach var="it" items="${priceList}">--%>
-<%--<tr>--%>
-<%--<td></td>--%>
-<%--<td><c:out value = "${it.name}"/></td>--%>
-<%--<td><c:out value = "${it.price}"/></td>--%>
-<%--<td><a href="http://localhost:8080/product//count/20">addPrice</a></td>--%>
-<%--</tr>--%>
-<%--</c:forEach>--%>
-<%--</table>--%>
-<%--</div>--%>
-<%--</div>--%>
+
 
 
 
