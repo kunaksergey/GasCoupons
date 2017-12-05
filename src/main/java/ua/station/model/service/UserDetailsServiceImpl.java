@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.station.model.entity.Role;
 import ua.station.model.entity.User;
 import ua.station.model.repository.RoleRepository;
@@ -25,7 +26,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     RoleRepository roleRepository;
+
     @Override
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userService.findByEmail(email);
 
